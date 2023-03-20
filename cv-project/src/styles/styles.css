@@ -1,0 +1,14 @@
+html {
+    background-color: #c0d7f8;
+    height: 100%;
+}
+
+.cvBody {
+    background-color: white;
+    padding: 30px;
+}
+
+.personalEntryDiv, .educationEntryDiv, .experienceEntryDiv {
+    display: flex;
+    flex-direction: column;
+}
