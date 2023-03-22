@@ -9,12 +9,9 @@ html {
     gap: 20px;
 }
 
-.bodyForms {
+.bodyForms, .bodyOutput {
     background-color: white;
-}
-
-.bodyOutput {
-    background-color: white;
+    padding: 20px;
 }
 
 .personalEntryDiv, .educationEntryDiv, .experienceEntryDiv {
