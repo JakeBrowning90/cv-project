@@ -3,6 +3,11 @@ html {
     height: 100%;
 }
 
+form, input {
+    display: flex;
+    flex-direction: column;
+}
+
 .bodyWhole {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -17,4 +22,8 @@ html {
 .personalEntryDiv, .educationEntryDiv, .experienceEntryDiv {
     display: flex;
     flex-direction: column;
+}
+
+.personalOutputDiv {
+    background-color: #c0d7f8;
 }
