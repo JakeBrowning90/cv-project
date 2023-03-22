@@ -1,10 +1,9 @@
 //Displays tasks
-
 import React from "react";
 
 const ExperienceOutput = (props) => {
-    // Gets tasks array from props
-    const { tasks } = props;
+
+    // const {  } = props;
 
     // For each task in array, creates an <li>
     return (
