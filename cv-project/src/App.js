@@ -12,53 +12,111 @@ class App extends Component {
   constructor() {
     super();
 
-    // Defines state
+    // Defines state: the changable value to b passed into components
     this.state = {
-      // Handles what's typed in the input field
+      // stores the moment-to-moment values of the PersonalInfoForm
       personal: { 
-        name: '',
+        username: '',
         phone: '',
         email: '',
         website: '',
-        id: uniqid(),
       },
+      // on submit, goes to the PersonalOutput component
       personalCurrent: { 
-        name: '',
+        username: '',
         phone: '',
         email: '',
         website: '',
+      },
+      // stores the moment-to-moment values of the EducationForm
+      education: {
+        school: '',
+        major: '',
+        degree: '',
+        startDate: '',
+        endDate: '',
         id: uniqid(),
       },
+      // On submit, takes the current Education values and adds to list, then read by EducationOutput component
+      educationEntries: [],
     };
+    //Essential for handling multiple inputs but not sure why yet
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange = (e) => {
+  // Handles what's typed in the input fields: updates the state to match the current input value
+  handleChange(e) {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
+
     this.setState({
-      personal : {
-        name: e.target.value,
-      }
+      [name]: value
+    });
+  }
+
+  // onSubmit handler for PersonalInfoForm
+  onSubmitPersonal = (e) => {
+    //Prevent default behavior (form refresh)
+    e.preventDefault();
+    // Modify state:
+    this.setState({
+      // Update PersonalCurrent (read by output) to values in input fields
+      personalCurrent : {
+        username : this.state.username,
+        phone : this.state.phone,
+        email : this.state.email,
+        website : this.state.website,
+        // id: uniqid(),
+      },
+      // sets Personal in state to an empty string to clear input field
+      // personal: { 
+      //   // username: '',
+      //   // phone: '',
+      //   // email: '',
+      //   // website: '',
+      //   // id: uniqid(),
+        
+      // },
+
     });
   };
 
   // onSubmit handler for form
-  onSubmitName = (e) => {
+  onSubmitEducation = (e) => {
     //Prevent default behavior (form refresh)
     e.preventDefault();
     // Modify state
     this.setState({
-      // Add current task (from input field) to the tasks array
-      personalCurrent : this.state.personal,
-      // sets task in state to an empty string to clear input field
-      personal: { 
-        name: '',
+      // Add current education form inputs to an object, add the object to an array to be read by the component
+
+      education: {
+        school : this.state.school,
+        major : this.state.major,
+        degree : this.state.degree,
+        startDate : this.state.startDate,
+        endDate : this.state.endDate,
         id: uniqid(),
       },
+
+      educationEntries : this.state.educationEntries.concat(this.state.education),
+
+      // I thought this would clear out the input fields but it seems to stop the object from being properly added at all
+      // education: {
+      //   school : '',
+      //   major : '',
+      //   degree : '',
+      //   startDate : '',
+      //   endDate : '',
+      //   id: uniqid(),
+      // },
     });
+    
   };
 
   render() {
-    // Destructures state for cleaner look
-    const { personal, personalCurrent } = this.state;
+    // Destructures state for cleaner look (Still not entirely sure what that means)
+    const { personalCurrent, educationEntries } = this.state;
 
     return (
       <div>
@@ -67,17 +125,22 @@ class App extends Component {
           <div className="bodyForms">
              <h2>Add Personal info:</h2>
               {/* Form for Personal info input */}
-             <form className="personalEntryForm" onSubmit={this.onSubmitName}>
+             <form className="personalEntryForm" onSubmit={this.onSubmitPersonal}>
               <label htmlFor= "nameInput" >Name: 
                 <input 
+                    name="username"
                     onChange={this.handleChange}
-                    value={personal.name}
+                    value={this.state.username}
                     type="text" 
                     id="nameInput"
                 />
               </label>
+
               <label htmlFor= "phoneInput">Phone number: 
                 <input 
+                    name="phone"
+                    onChange={this.handleChange}
+                    value={this.state.phone}
                     type="text" 
                     id="phoneInput"
                 />
@@ -85,6 +148,9 @@ class App extends Component {
 
               <label htmlFor= "emailInput">Email address:
                 <input 
+                    name="email"
+                    onChange={this.handleChange}
+                    value={this.state.email}
                     type="text" 
                     id="emailInput"
                 />
@@ -92,6 +158,9 @@ class App extends Component {
 
               <label htmlFor= "websiteInput">Website: 
                 <input 
+                    name="website"
+                    onChange={this.handleChange}
+                    value={this.state.website}
                     type="text" 
                     id="websiteInput"
                 />
@@ -102,28 +171,40 @@ class App extends Component {
 
             <h2>Add Education:</h2>
             {/* Form for Education info input */}
-            <form className="educationEntryForm">
+            <form className="educationEntryForm" onSubmit={this.onSubmitEducation}>
                 <label htmlFor= "schooInput">School:
-                  <input 
+                  <input
+                      name="school"
+                      onChange={this.handleChange}
+                      value={this.state.school} 
                       type="text" 
-                      id="schooInput"
+                      id="schoolInput"
                   />
                  </label>
 
                 <label htmlFor= "majorInput">Major:
                   <input 
+                      name="major"
+                      onChange={this.handleChange}
+                      value={this.state.major} 
                       type="text" 
                       id="majorInput"
                   />
                  </label>
                 <label htmlFor= "degreeInput">Degree:
                   <input 
+                      name="degree"
+                      onChange={this.handleChange}
+                      value={this.state.degree} 
                       type="text" 
                       id="degreeInput"
                   />  
                 </label>
                 <label htmlFor= "startDateInput">Start date: 
                   <input 
+                      name="startDate"
+                      onChange={this.handleChange}
+                      value={this.state.startDate} 
                       type="text" 
                       id="startDateInput"
                   />
@@ -131,6 +212,9 @@ class App extends Component {
 
                 <label htmlFor= "endDateInput">End date: 
                   <input 
+                      name="endDate"
+                      onChange={this.handleChange}
+                      value={this.state.endDate}                 
                       type="text" 
                       id="endDateInput"
                   />
@@ -185,7 +269,7 @@ class App extends Component {
             <h2>Personal info</h2>
             <PersonalOutput personalCurrent={personalCurrent} />
             <h2>Education</h2>
-            <EducationOutput />
+            <EducationOutput educationEntries={educationEntries}/>
             <h2>Experience</h2>
             <ExperienceOutput />
           </div>

@@ -1,17 +1,15 @@
-//Displays tasks
-
 import React from "react";
 
 const PersonalOutput = (props) => {
-    // Gets tasks array from props
+    // Gets personalCurrent object from props
     const { personalCurrent } = props;
 
-    // For each task in array, creates an <li>
+    // Display each attribute in personalCurrent
     return (
         <div className="personalOutputDiv">
             {/* Personal info goes here */}
             <ul>
-                <li>{personalCurrent.name}</li>
+                <li>{personalCurrent.username}</li>
                 <li>{personalCurrent.phone}</li>
                 <li>{personalCurrent.email}</li>
                 <li>{personalCurrent.website}</li>
