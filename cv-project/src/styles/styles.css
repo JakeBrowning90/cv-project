@@ -3,9 +3,18 @@ html {
     height: 100%;
 }
 
-.cvBody {
+.bodyWhole {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.bodyForms {
     background-color: white;
-    padding: 30px;
+}
+
+.bodyOutput {
+    background-color: white;
 }
 
 .personalEntryDiv, .educationEntryDiv, .experienceEntryDiv {

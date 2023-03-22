@@ -18,13 +18,20 @@ class App extends Component {
     return (
       <div>
         <h1>CV Builder</h1>
-        <div className="cvBody">
-          <h2>Personal info</h2>
-          <PersonalEntry />
-          <h2>Education</h2>
-          <Education />
-          <h2>Experience</h2>
-          <Experience />
+        <div className="bodyWhole">
+          <div className="bodyForms">
+             <h2>Add Personal info:</h2>
+            <PersonalEntry />
+            <h2>Add Education:</h2>
+            <Education />
+            <h2>Add Experience:</h2>
+            <Experience />
+          </div>
+          <div className="bodyOutput">
+            <h2>Personal info</h2>
+            <h2>Education</h2>
+            <h2>Experience</h2>
+          </div>
         </div>
       </div>
     );
