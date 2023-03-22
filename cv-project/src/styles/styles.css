@@ -1,5 +1,5 @@
 html {
-    background-color: #c0d7f8;
+    background-color: #bfbfbf;
     height: 100%;
 }
 
@@ -24,6 +24,14 @@ form, input {
     flex-direction: column;
 }
 
-.personalOutputDiv {
-    background-color: #c0d7f8;
+.personalEntryForm,.personalOutputDiv {
+    background-color: #f9c4ce;
+}
+
+.educationEntryForm, .educationOutputDiv {
+    background-color: #f4f5c3;
+}
+
+.experienceEntryForm, .experienceOutputDiv {
+    background-color: #c4f0f9;
 }
