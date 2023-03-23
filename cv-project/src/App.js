@@ -29,22 +29,14 @@ class App extends Component {
         website: '',
       },
       // stores the moment-to-moment values of the EducationForm
-      // education: {
-      //   school: '',
-      //   major: '',
-      //   degree: '',
-      //   startDate: '',
-      //   endDate: '',
-      //   id: uniqid(),
-      // },
-      education: {},
+      education: {
         school: '',
         major: '',
         degree: '',
         startDate: '',
         endDate: '',
         id: uniqid(),
-      
+      },
       // On submit, takes the current Education values and adds to list, then read by EducationOutput component
       educationEntries: [],
     };
@@ -70,7 +62,10 @@ class App extends Component {
     const name = target.name;
 
     this.setState({
-      [name]: value
+      education: {
+        [name]: value,
+        id: uniqid(),
+      }  
     });
   }
 
@@ -109,14 +104,14 @@ class App extends Component {
     this.setState({
       // Add current education form inputs to an object, add the object to an array to be read by the component
 
-      education: {
-        school : this.state.school,
-        major : this.state.major,
-        degree : this.state.degree,
-        startDate : this.state.startDate,
-        endDate : this.state.endDate,
-        id: uniqid(),
-      },
+      // education: {
+      //   school : this.state.school,
+      //   major : this.state.major,
+      //   degree : this.state.degree,
+      //   startDate : this.state.startDate,
+      //   endDate : this.state.endDate,
+      //   id: uniqid(),
+      // },
 
       educationEntries : this.state.educationEntries.concat(this.state.education),
 
