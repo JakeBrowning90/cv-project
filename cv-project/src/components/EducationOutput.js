@@ -15,7 +15,7 @@ const EducationOutput = (props) => {
                     {education.major}, 
                     {education.degree}, 
                     {education.startDate}, 
-                    {education.endDate}, 
+                    {education.endDate}
                     {/* TODO: let user delete entries */}
                     <button>Delete</button>
                 </li>;
