@@ -15,12 +15,12 @@ class App extends Component {
     // Defines state: the changable value to b passed into components
     this.state = {
       // stores the moment-to-moment values of the PersonalInfoForm
-      // personal: { 
-      //   username: '',
-      //   phone: '',
-      //   email: '',
-      //   website: '',
-      // },
+      personal: { 
+        username: '',
+        phone: '',
+        email: '',
+        website: '',
+      },
       // on submit, goes to the PersonalOutput component
       personalCurrent: { 
         username: '',
@@ -41,18 +41,21 @@ class App extends Component {
       educationEntries: [],
     };
     //Essential for handling multiple inputs but not sure why yet
-    this.handleChange = this.handleChange.bind(this);
+    this.handlePersonalChange = this.handlePersonalChange.bind(this);
     this.handleEducationChange = this.handleEducationChange.bind(this);
   }
 
   // Handles what's typed in the input fields: updates the state to match the current input value
-  handleChange(e) {
+  handlePersonalChange(e) {
     const target = e.target;
     const value = target.value;
     const name = target.name;
 
     this.setState({
-      [name]: value
+      personal: {
+        ...this.state.personal, 
+        [name]: value,
+      }  
     });
   }
 
@@ -65,7 +68,7 @@ class App extends Component {
       education: {
         ...this.state.education, 
         [name]: value,
-        id: uniqid(),
+        // id: uniqid(),
       }  
     });
   }
@@ -76,24 +79,15 @@ class App extends Component {
     e.preventDefault();
     // Modify state:
     this.setState({
-      // Update PersonalCurrent (read by output) to values in input fields
-      personalCurrent : {
-        username : this.state.username,
-        phone : this.state.phone,
-        email : this.state.email,
-        website : this.state.website,
-      },
+      personalCurrent: this.state.personal,
+
       // sets Personal in state to an empty string to clear input field
-      // personal: { 
-      //   // username: '',
-      //   // phone: '',
-      //   // email: '',
-      //   // website: '',
-      // },
-      username: '',
-      phone : '',
-      email : '',
-      website : '',
+      personal: { 
+        username: '',
+        phone: '',
+        email: '',
+        website: '',
+      },
     });
   };
 
@@ -104,15 +98,6 @@ class App extends Component {
     // Modify state
     this.setState({
       // Add current education form inputs to an object, add the object to an array to be read by the component
-
-      // education: {
-      //   school : this.state.school,
-      //   major : this.state.major,
-      //   degree : this.state.degree,
-      //   startDate : this.state.startDate,
-      //   endDate : this.state.endDate,
-      //   id: uniqid(),
-      // },
 
       educationEntries : this.state.educationEntries.concat(this.state.education),
 
@@ -144,8 +129,8 @@ class App extends Component {
               <label htmlFor= "nameInput" >Name: 
                 <input 
                     name="username"
-                    onChange={this.handleChange}
-                    value={this.state.username}
+                    onChange={this.handlePersonalChange}
+                    value={this.state.personal.username}
                     type="text" 
                     id="nameInput"
                 />
@@ -154,8 +139,8 @@ class App extends Component {
               <label htmlFor= "phoneInput">Phone number: 
                 <input 
                     name="phone"
-                    onChange={this.handleChange}
-                    value={this.state.phone}
+                    onChange={this.handlePersonalChange}
+                    value={this.state.personal.phone}
                     type="text" 
                     id="phoneInput"
                 />
@@ -164,8 +149,8 @@ class App extends Component {
               <label htmlFor= "emailInput">Email address:
                 <input 
                     name="email"
-                    onChange={this.handleChange}
-                    value={this.state.email}
+                    onChange={this.handlePersonalChange}
+                    value={this.state.personal.email}
                     type="text" 
                     id="emailInput"
                 />
@@ -174,8 +159,8 @@ class App extends Component {
               <label htmlFor= "websiteInput">Website: 
                 <input 
                     name="website"
-                    onChange={this.handleChange}
-                    value={this.state.website}
+                    onChange={this.handlePersonalChange}
+                    value={this.state.personal.website}
                     type="text" 
                     id="websiteInput"
                 />
@@ -191,7 +176,7 @@ class App extends Component {
                   <input
                       name="school"
                       onChange={this.handleEducationChange}
-                      value={this.state.school} 
+                      value={this.state.education.school} 
                       type="text" 
                       id="schoolInput"
                   />
@@ -201,7 +186,7 @@ class App extends Component {
                   <input 
                       name="major"
                       onChange={this.handleEducationChange}
-                      value={this.state.major} 
+                      value={this.state.education.major} 
                       type="text" 
                       id="majorInput"
                   />
@@ -210,7 +195,7 @@ class App extends Component {
                   <input 
                       name="degree"
                       onChange={this.handleEducationChange}
-                      value={this.state.degree} 
+                      value={this.state.education.degree} 
                       type="text" 
                       id="degreeInput"
                   />  
@@ -219,7 +204,7 @@ class App extends Component {
                   <input 
                       name="startDate"
                       onChange={this.handleEducationChange}
-                      value={this.state.startDate} 
+                      value={this.state.education.startDate} 
                       type="text" 
                       id="startDateInput"
                   />
@@ -228,7 +213,7 @@ class App extends Component {
                   <input 
                       name="endDate"
                       onChange={this.handleEducationChange}
-                      value={this.state.endDate}                 
+                      value={this.state.education.endDate}                 
                       type="text" 
                       id="endDateInput"
                   />
