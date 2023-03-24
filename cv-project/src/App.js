@@ -63,6 +63,7 @@ class App extends Component {
 
     this.setState({
       education: {
+        ...this.state.education, 
         [name]: value,
         id: uniqid(),
       }  
@@ -116,14 +117,14 @@ class App extends Component {
       educationEntries : this.state.educationEntries.concat(this.state.education),
 
       // I thought this would clear out the input fields but it seems to stop the object from being properly added at all
-      // education: {
-      //   school : '',
-      //   major : '',
-      //   degree : '',
-      //   startDate : '',
-      //   endDate : '',
-      //   id: uniqid(),
-      // },
+      education: {
+        school : '',
+        major : '',
+        degree : '',
+        startDate : '',
+        endDate : '',
+        id: uniqid(),
+      },
     });
     
   };
