@@ -7,6 +7,7 @@ import uniqid from "uniqid";
 import PersonalOutput from "./components/PersonalOutput";
 import EducationOutput from "./components/EducationOutput";
 import ExperienceOutput from "./components/ExperienceOutput";
+import { toHaveDisplayValue } from "@testing-library/jest-dom/dist/matchers";
 
 class App extends Component {
   constructor() {
@@ -68,7 +69,6 @@ class App extends Component {
       education: {
         ...this.state.education, 
         [name]: value,
-        // id: uniqid(),
       }  
     });
   }
@@ -95,13 +95,28 @@ class App extends Component {
   onSubmitEducation = (e) => {
     //Prevent default behavior (form refresh)
     e.preventDefault();
-    // Modify state
+
+    //Check if education key is already in use
+    const replaceEntry = this.state.educationEntries.find(entry => entry.id == this.state.education.id);
+
+    //if key isn't already in use, add new entry to array 
+    if (replaceEntry == undefined) {
+      this.setState({
+        // Add current education form inputs to an object, add the object to an array to be read by the component
+        educationEntries: this.state.educationEntries.concat(this.state.education),
+      });
+    }
+    else {
+      const replaceIndex = this.state.educationEntries.indexOf(replaceEntry)
+
+      const editedArray = [...this.state.educationEntries.slice(0,replaceIndex ), this.state.education, ...this.state.educationEntries.slice(replaceIndex + 1)]
+      this.setState({
+        educationEntries: editedArray,
+      });
+    }
+
+    // Clear out the input fields, prepare next ID
     this.setState({
-      // Add current education form inputs to an object, add the object to an array to be read by the component
-
-      educationEntries : this.state.educationEntries.concat(this.state.education),
-
-      // I thought this would clear out the input fields but it seems to stop the object from being properly added at all
       education: {
         school : '',
         major : '',
@@ -113,11 +128,26 @@ class App extends Component {
     });
   };
 
+  
   deleteEntry(id) {
-    // this.setState()
     const educationEntries = this.state.educationEntries.filter(entry => entry.id !== id);
     this.setState({ educationEntries: educationEntries });
- }
+  };
+
+  // Send entry back to form
+  editEntry(id) {
+    const updatedEntry = this.state.educationEntries.find(entry => entry.id == id);
+    this.setState({
+      education: {
+        school: updatedEntry.school,
+        major: updatedEntry.major,
+        degree: updatedEntry.degree,
+        startDate:  updatedEntry.startDate,
+        endDate:  updatedEntry.endDate,
+        id: updatedEntry.id,
+      }  
+    });
+  };
 
   render() {
     // Destructures state for cleaner look (Still not entirely sure what that means)
@@ -273,7 +303,11 @@ class App extends Component {
             <h2>Personal info</h2>
             <PersonalOutput personalCurrent={personalCurrent} />
             <h2>Education</h2>
-            <EducationOutput deleteEntry={this.deleteEntry.bind(this)} educationEntries={educationEntries}/>
+            <EducationOutput 
+              editEntry={this.editEntry.bind(this)} 
+              deleteEntry={this.deleteEntry.bind(this)} 
+              educationEntries={educationEntries}
+            />
             <h2>Experience</h2>
             <ExperienceOutput />
           </div>
