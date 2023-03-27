@@ -2,7 +2,8 @@ import React from "react";
 
 const EducationOutput = (props) => {
     // Gets educationEntries array from props
-    const { educationEntries } = props;
+    const {  deleteEntry, educationEntries } = props;
+    
 
     // For each education object in array, creates an <li> (Style each entry into a div later)
     return (
@@ -17,7 +18,9 @@ const EducationOutput = (props) => {
                     {education.startDate}, 
                     {education.endDate}
                     {/* TODO: let user delete entries */}
-                    <button>Delete</button>
+                    <button onClick={deleteEntry.bind(this, education.id)}>
+                        Delete
+                    </button>
                 </li>;
             })}
         </ul>

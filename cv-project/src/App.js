@@ -111,8 +111,13 @@ class App extends Component {
         id: uniqid(),
       },
     });
-    
   };
+
+  deleteEntry(id) {
+    this.setState(prevState => ({
+        data: prevState.data.filter(el => el != id )
+    }));
+ }
 
   render() {
     // Destructures state for cleaner look (Still not entirely sure what that means)
@@ -268,7 +273,7 @@ class App extends Component {
             <h2>Personal info</h2>
             <PersonalOutput personalCurrent={personalCurrent} />
             <h2>Education</h2>
-            <EducationOutput educationEntries={educationEntries}/>
+            <EducationOutput deleteEntry={this.deleteEntry.bind(this)} educationEntries={educationEntries}/>
             <h2>Experience</h2>
             <ExperienceOutput />
           </div>
