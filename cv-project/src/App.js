@@ -114,9 +114,9 @@ class App extends Component {
   };
 
   deleteEntry(id) {
-    this.setState(prevState => ({
-        data: prevState.data.filter(el => el != id )
-    }));
+    // this.setState()
+    const educationEntries = this.state.educationEntries.filter(entry => entry.id !== id);
+    this.setState({ educationEntries: educationEntries });
  }
 
   render() {

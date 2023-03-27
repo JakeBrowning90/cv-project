@@ -17,8 +17,11 @@ const EducationOutput = (props) => {
                     {education.degree}, 
                     {education.startDate}, 
                     {education.endDate}
-                    {/* TODO: let user delete entries */}
-                    <button onClick={deleteEntry.bind(this, education.id)}>
+                    {/* TODO: let user edit entries */}
+                    <button>
+                        Edit
+                    </button>
+                    <button onClick={() => deleteEntry(education.id)}>
                         Delete
                     </button>
                 </li>;
