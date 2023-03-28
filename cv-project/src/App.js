@@ -1,6 +1,7 @@
 //Contains logic and manages state
 
 import React, { Component } from "react";
+import './styles/reset.css';
 import './styles/styles.css';
 //Package to create unique ids as object keys
 import uniqid from "uniqid";
@@ -248,39 +249,43 @@ class App extends Component {
         <h1>CV Builder</h1>
         <div className="bodyWhole">
           <div className="bodyForms">
-             <h2>Add Personal info:</h2>
-              {/* Form for Personal info input */}
-             <form className="personalEntryForm" onSubmit={this.onSubmitPersonal}>
+            <h2>Add Personal info:</h2>
+            {/* Form for Personal info input */}
+            <form className="personalEntryForm" onSubmit={this.onSubmitPersonal}>
+              <div className="formInput">
               <label htmlFor= "nameInput" >Name: 
-                <input 
-                    name="username"
-                    onChange={this.handlePersonalChange}
-                    value={this.state.personal.username}
-                    type="text" 
-                    id="nameInput"
-                />
-              </label>
-
+                  <input 
+                      name="username"
+                      onChange={this.handlePersonalChange}
+                      value={this.state.personal.username}
+                      type="text" 
+                      id="nameInput"
+                  />
+                </label>
+              </div>
+              <div className="formInput">
               <label htmlFor= "phoneInput">Phone number: 
-                <input 
-                    name="phone"
-                    onChange={this.handlePersonalChange}
-                    value={this.state.personal.phone}
-                    type="text" 
-                    id="phoneInput"
-                />
-              </label>
-
+                  <input 
+                      name="phone"
+                      onChange={this.handlePersonalChange}
+                      value={this.state.personal.phone}
+                      type="text" 
+                      id="phoneInput"
+                  />
+                </label>
+              </div>
+              <div className="formInput">
               <label htmlFor= "emailInput">Email address:
-                <input 
-                    name="email"
-                    onChange={this.handlePersonalChange}
-                    value={this.state.personal.email}
-                    type="text" 
-                    id="emailInput"
-                />
-              </label>
-
+                  <input 
+                      name="email"
+                      onChange={this.handlePersonalChange}
+                      value={this.state.personal.email}
+                      type="text" 
+                      id="emailInput"
+                  />
+                </label>
+              </div>
+              <div className="formInput">
               <label htmlFor= "websiteInput">Website: 
                 <input 
                     name="website"
@@ -290,13 +295,16 @@ class App extends Component {
                     id="websiteInput"
                 />
               </label>
-
+              </div>
+ 
               <button>Update</button>
             </form>
 
             <h2>Add Education:</h2>
             {/* Form for Education info input */}
             <form className="educationEntryForm" onSubmit={this.onSubmitEducation}>
+
+              <div className="formInput">
                 <label htmlFor= "schoolInput">School:
                   <input
                       name="school"
@@ -306,8 +314,10 @@ class App extends Component {
                       id="schoolInput"
                   />
                 </label>
+              </div>
 
-                <label htmlFor= "locationInput">Location:
+              <div className="formInput">
+                <label htmlFor="locationInput">Location:
                   <input
                       name="location"
                       onChange={this.handleEducationChange}
@@ -315,9 +325,10 @@ class App extends Component {
                       type="text" 
                       id="locationInput"
                   />
-                 </label>
-
-                <label htmlFor= "majorInput">Major:
+                </label>
+              </div>
+              <div className="formInput">
+                <label htmlFor= "majorInput">Major / Area of study:
                   <input 
                       name="major"
                       onChange={this.handleEducationChange}
@@ -326,8 +337,9 @@ class App extends Component {
                       id="majorInput"
                   />
                  </label>
-
-                <label htmlFor= "degreeInput">Degree:
+              </div>
+              <div className="formInput">
+                <label htmlFor= "degreeInput">Degree / Certification:
                   <input 
                       name="degree"
                       onChange={this.handleEducationChange}
@@ -336,8 +348,9 @@ class App extends Component {
                       id="degreeInput"
                   />  
                 </label>
-
-                <label htmlFor= "startDateInput">Start date: 
+              </div>
+      
+              <label htmlFor= "startDateInput">Start date: 
                   <input 
                       name="startDate"
                       onChange={this.handleEducationChange}
@@ -356,8 +369,8 @@ class App extends Component {
                       id="endDateInput"
                   />
                 </label>
-
-                <label htmlFor= "educationDetailsInput">Details:
+              <div className="formInput">
+              <label htmlFor= "educationDetailsInput">Details:
                   <textarea 
                       name="details"
                       onChange={this.handleEducationChange}
@@ -366,15 +379,17 @@ class App extends Component {
                       id="detailsInput"
                   />  
                 </label>
+              </div>
 
-                <button>Add</button>
+              <button>Add</button>
             </form>
 
             <h2>Add Experience:</h2>
             {/* Form for Experience info input */}
             <form className="experienceEntryForm" onSubmit={this.onSubmitExperience}>
 
-              <label htmlFor= "positionTitleInput">Position:
+            <div className="formInput">
+            <label htmlFor= "positionTitleInput">Position:
                 <input
                     name="position"
                     onChange={this.handleExperienceChange}
@@ -383,27 +398,29 @@ class App extends Component {
                     id="positionTitleInput"
                 />
               </label>
-
-              <label htmlFor= "organizationInput">Organization: 
-                <input 
-                    name="organization"
-                    onChange={this.handleExperienceChange}
-                    value={this.state.experience.organization}  
-                    type="text" 
-                    id="organizationInput"
-                />
-              </label>
-
-              <label htmlFor= "locationInput">Location: 
-                <input 
+            </div>
+              <div className="formInput">
+                <label htmlFor= "organizationInput">Organization: 
+                  <input 
+                      name="organization"
+                      onChange={this.handleExperienceChange}
+                      value={this.state.experience.organization}  
+                      type="text" 
+                      id="organizationInput"
+                  />
+                </label>
+              </div>
+              <div className="formInput">
+                <label htmlFor= "locationInput">Location: 
+                  <input 
                     name="location"
                     onChange={this.handleExperienceChange}
                     value={this.state.experience.location}  
                     type="text" 
                     id="locationInput"
-                />
-              </label>
-
+                  />
+                </label>
+              </div>
               <label htmlFor= "startDateInput">Start date: 
                 <input 
                     name="startDate"
@@ -424,7 +441,8 @@ class App extends Component {
                 />
               </label>
 
-              <label htmlFor= "responsibilitiesInput">Details:
+              <div className="formInput">
+                <label htmlFor= "responsibilitiesInput">Details:
                   <textarea 
                       name="responsibilities"
                       onChange={this.handleExperienceChange}
@@ -432,9 +450,8 @@ class App extends Component {
                       // type="textarea" 
                       id="responsibilitiesInput"
                   />  
-                </label>
-
-             
+                </label>  
+              </div>
 
               <button>Add</button>
             </form>

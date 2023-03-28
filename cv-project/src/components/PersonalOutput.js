@@ -11,11 +11,6 @@ const PersonalOutput = (props) => {
             <div className="nameOutput">{personalCurrent.username}</div>
             <div>Phone: {personalCurrent.phone} | Email: {personalCurrent.email}</div>
             <div>Web: {personalCurrent.website}</div>
-            {/* {personalCurrent.username}
-            {personalCurrent.phone}
-            {personalCurrent.email}
-            {personalCurrent.website} */}
-
         </div>
     );
 };
