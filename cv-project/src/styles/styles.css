@@ -1,8 +1,9 @@
 html {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #d5d5d5;
-    height: 100%;
+    background-color: #d7d7d7;
+    height: 100vh;
     padding: 20px;
+    
 }
 
 h1, h2, h3 {
@@ -23,18 +24,27 @@ textarea {
     resize: none; 
 }
 
-/* form, input {
-    display: flex;
-    flex-direction: column;
-} */
-
 ul {
     list-style: none;
     margin: 0;
     padding: 0;
+} 
+
+.fullPage {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 100px 1fr;
+    gap:20px
+}
+
+.pageHeading {
+    background-color: white;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
 }
 
 .bodyWhole {
+    height: 100%;
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 20px;

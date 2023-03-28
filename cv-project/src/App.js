@@ -245,8 +245,24 @@ class App extends Component {
     const { personalCurrent, educationEntries, experienceEntries } = this.state;
 
     return (
-      <div>
-        <h1>CV Builder</h1>
+      <div className="fullPage">
+        <div className="pageHeading">
+          <div className="titleArea">
+            <h1>
+              CV Builder
+            </h1>
+            <h2>
+              Made by Jake Browning<br/>
+              for The Odin Project, 2023
+            </h2>
+          </div>
+          <div className="instructionArea">
+            <ul>
+              <li>Use the forms on the left to add infomation to your CV.</li>
+              <li>Click "Edit" to make changes to an existing entry without removing it.</li>
+            </ul>
+          </div>
+        </div>
         <div className="bodyWhole">
           <div className="bodyForms">
             <h2>Add Personal info:</h2>
@@ -447,7 +463,7 @@ class App extends Component {
                       name="responsibilities"
                       onChange={this.handleExperienceChange}
                       value={this.state.experience.responsibilities} 
-                      // type="textarea" 
+       
                       id="responsibilitiesInput"
                   />  
                 </label>  
@@ -460,13 +476,13 @@ class App extends Component {
           <div className="bodyOutput">
             {/* <h2>Personal info</h2> */}
             <PersonalOutput personalCurrent={personalCurrent} />
-            <h3>Education:</h3>
+            <h2>Education:</h2>
             <EducationOutput 
               editEducationEntry={this.editEducationEntry.bind(this)} 
               deleteEducationEntry={this.deleteEducationEntry.bind(this)} 
               educationEntries={educationEntries}
             />
-            <h3>Experience:</h3>
+            <h2>Experience:</h2>
             <ExperienceOutput 
               editExperienceEntry={this.editExperienceEntry.bind(this)} 
               deleteExperienceEntry={this.deleteExperienceEntry.bind(this)} 
