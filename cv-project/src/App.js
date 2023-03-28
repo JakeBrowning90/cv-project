@@ -31,8 +31,10 @@ class App extends Component {
       // stores the moment-to-moment values of the EducationForm
       education: {
         school: '',
+        location: '',
         major: '',
         degree: '',
+        details: '',
         startDate: '',
         endDate: '',
         id: uniqid(),
@@ -44,6 +46,7 @@ class App extends Component {
       experience: {
         position: '',
         organization: '',
+        location: '',
         responsibilities: '',
         startDate: '',
         endDate: '',
@@ -143,8 +146,10 @@ class App extends Component {
     this.setState({
       education: {
         school : '',
+        location: '',
         major : '',
         degree : '',
+        details: '',
         startDate : '',
         endDate : '',
         id: uniqid(),
@@ -163,8 +168,10 @@ class App extends Component {
     this.setState({
       education: {
         school: updatedEntry.school,
+        location: updatedEntry.location,
         major: updatedEntry.major,
         degree: updatedEntry.degree,
+        details: updatedEntry.details,
         startDate:  updatedEntry.startDate,
         endDate:  updatedEntry.endDate,
         id: updatedEntry.id,
@@ -201,6 +208,7 @@ class App extends Component {
       experience: {
         position : '',
         organization : '',
+        location: '',
         responsibilities : '',
         startDate : '',
         endDate : '',
@@ -221,6 +229,7 @@ class App extends Component {
       experience: {
         position: updatedEntry.position,
         organization: updatedEntry.organization,
+        location: updatedEntry.location,
         responsibilities: updatedEntry.responsibilities,
         startDate:  updatedEntry.startDate,
         endDate:  updatedEntry.endDate,
@@ -288,13 +297,23 @@ class App extends Component {
             <h2>Add Education:</h2>
             {/* Form for Education info input */}
             <form className="educationEntryForm" onSubmit={this.onSubmitEducation}>
-                <label htmlFor= "schooInput">School:
+                <label htmlFor= "schoolInput">School:
                   <input
                       name="school"
                       onChange={this.handleEducationChange}
                       value={this.state.education.school} 
                       type="text" 
                       id="schoolInput"
+                  />
+                </label>
+
+                <label htmlFor= "locationInput">Location:
+                  <input
+                      name="location"
+                      onChange={this.handleEducationChange}
+                      value={this.state.education.location} 
+                      type="text" 
+                      id="locationInput"
                   />
                  </label>
 
@@ -307,6 +326,7 @@ class App extends Component {
                       id="majorInput"
                   />
                  </label>
+
                 <label htmlFor= "degreeInput">Degree:
                   <input 
                       name="degree"
@@ -316,6 +336,7 @@ class App extends Component {
                       id="degreeInput"
                   />  
                 </label>
+
                 <label htmlFor= "startDateInput">Start date: 
                   <input 
                       name="startDate"
@@ -325,6 +346,7 @@ class App extends Component {
                       id="startDateInput"
                   />
                 </label>
+
                 <label htmlFor= "endDateInput">End date: 
                   <input 
                       name="endDate"
@@ -334,6 +356,17 @@ class App extends Component {
                       id="endDateInput"
                   />
                 </label>
+
+                <label htmlFor= "educationDetailsInput">Details:
+                  <textarea 
+                      name="details"
+                      onChange={this.handleEducationChange}
+                      value={this.state.education.details} 
+                      // type="textarea" 
+                      id="detailsInput"
+                  />  
+                </label>
+
                 <button>Add</button>
             </form>
 
@@ -361,13 +394,13 @@ class App extends Component {
                 />
               </label>
 
-              <label htmlFor= "responsibilitiesInput">Responsibilities: 
+              <label htmlFor= "locationInput">Location: 
                 <input 
-                    name="responsibilities"
+                    name="location"
                     onChange={this.handleExperienceChange}
-                    value={this.state.experience.responsibilities} 
-                    type="textarea" 
-                    id="responsibilitiesInput"
+                    value={this.state.experience.location}  
+                    type="text" 
+                    id="locationInput"
                 />
               </label>
 
@@ -391,20 +424,32 @@ class App extends Component {
                 />
               </label>
 
+              <label htmlFor= "responsibilitiesInput">Details:
+                  <textarea 
+                      name="responsibilities"
+                      onChange={this.handleExperienceChange}
+                      value={this.state.experience.responsibilities} 
+                      // type="textarea" 
+                      id="responsibilitiesInput"
+                  />  
+                </label>
+
+             
+
               <button>Add</button>
             </form>
           </div>
 
           <div className="bodyOutput">
-            <h2>Personal info</h2>
+            {/* <h2>Personal info</h2> */}
             <PersonalOutput personalCurrent={personalCurrent} />
-            <h2>Education</h2>
+            <h3>Education:</h3>
             <EducationOutput 
               editEducationEntry={this.editEducationEntry.bind(this)} 
               deleteEducationEntry={this.deleteEducationEntry.bind(this)} 
               educationEntries={educationEntries}
             />
-            <h2>Experience</h2>
+            <h3>Experience:</h3>
             <ExperienceOutput 
               editExperienceEntry={this.editExperienceEntry.bind(this)} 
               deleteExperienceEntry={this.deleteExperienceEntry.bind(this)} 

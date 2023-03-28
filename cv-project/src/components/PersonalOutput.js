@@ -8,12 +8,14 @@ const PersonalOutput = (props) => {
     return (
         <div className="personalOutputDiv">
             {/* Personal info goes here */}
-            <ul>
-                <li>{personalCurrent.username}</li>
-                <li>{personalCurrent.phone}</li>
-                <li>{personalCurrent.email}</li>
-                <li>{personalCurrent.website}</li>
-            </ul>
+            <div className="nameOutput">{personalCurrent.username}</div>
+            <div>Phone: {personalCurrent.phone} | Email: {personalCurrent.email}</div>
+            <div>Web: {personalCurrent.website}</div>
+            {/* {personalCurrent.username}
+            {personalCurrent.phone}
+            {personalCurrent.email}
+            {personalCurrent.website} */}
+
         </div>
     );
 };
