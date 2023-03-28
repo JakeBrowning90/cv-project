@@ -7,7 +7,6 @@ import uniqid from "uniqid";
 import PersonalOutput from "./components/PersonalOutput";
 import EducationOutput from "./components/EducationOutput";
 import ExperienceOutput from "./components/ExperienceOutput";
-import { toHaveDisplayValue } from "@testing-library/jest-dom/dist/matchers";
 
 class App extends Component {
   constructor() {
@@ -40,10 +39,23 @@ class App extends Component {
       },
       // On submit, takes the current Education values and adds to list, then read by EducationOutput component
       educationEntries: [],
+
+      // stores the moment-to-moment values of the ExperienceForm
+      experience: {
+        position: '',
+        organization: '',
+        responsibilities: '',
+        startDate: '',
+        endDate: '',
+        id: uniqid(),
+      },
+      // On submit, takes the current Education values and adds to list, then read by EducationOutput component
+      experienceEntries: [],
     };
     //Essential for handling multiple inputs but not sure why yet
     this.handlePersonalChange = this.handlePersonalChange.bind(this);
     this.handleEducationChange = this.handleEducationChange.bind(this);
+    this.handleExperienceChange = this.handleExperienceChange.bind(this);
   }
 
   // Handles what's typed in the input fields: updates the state to match the current input value
@@ -73,6 +85,19 @@ class App extends Component {
     });
   }
 
+  handleExperienceChange(e) {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      experience: {
+        ...this.state.experience, 
+        [name]: value,
+      }  
+    });
+  }
+
   // onSubmit handler for PersonalInfoForm
   onSubmitPersonal = (e) => {
     //Prevent default behavior (form refresh)
@@ -80,7 +105,6 @@ class App extends Component {
     // Modify state:
     this.setState({
       personalCurrent: this.state.personal,
-
       // sets Personal in state to an empty string to clear input field
       personal: { 
         username: '',
@@ -107,8 +131,8 @@ class App extends Component {
       });
     }
     else {
+      // Insert modified entry back into array
       const replaceIndex = this.state.educationEntries.indexOf(replaceEntry)
-
       const editedArray = [...this.state.educationEntries.slice(0,replaceIndex ), this.state.education, ...this.state.educationEntries.slice(replaceIndex + 1)]
       this.setState({
         educationEntries: editedArray,
@@ -128,14 +152,13 @@ class App extends Component {
     });
   };
 
-  
-  deleteEntry(id) {
+  deleteEducationEntry(id) {
     const educationEntries = this.state.educationEntries.filter(entry => entry.id !== id);
     this.setState({ educationEntries: educationEntries });
   };
 
   // Send entry back to form
-  editEntry(id) {
+  editEducationEntry(id) {
     const updatedEntry = this.state.educationEntries.find(entry => entry.id == id);
     this.setState({
       education: {
@@ -149,9 +172,67 @@ class App extends Component {
     });
   };
 
+  // onSubmit handler for form
+  onSubmitExperience = (e) => {
+    //Prevent default behavior (form refresh)
+    e.preventDefault();
+
+    //Check if education key is already in use
+    const replaceEntry = this.state.experienceEntries.find(entry => entry.id == this.state.experience.id);
+
+    //if key isn't already in use, add new entry to array 
+    if (replaceEntry == undefined) {
+      this.setState({
+        // Add current education form inputs to an object, add the object to an array to be read by the component
+        experienceEntries: this.state.experienceEntries.concat(this.state.experience),
+      });
+    }
+    else {
+      // Insert modified entry back into array
+      const replaceIndex = this.state.experienceEntries.indexOf(replaceEntry)
+      const editedArray = [...this.state.experienceEntries.slice(0,replaceIndex ), this.state.experience, ...this.state.experienceEntries.slice(replaceIndex + 1)]
+      this.setState({
+        experienceEntries: editedArray,
+      });
+    }
+
+    // Clear out the input fields, prepare next ID
+    this.setState({
+      experience: {
+        position : '',
+        organization : '',
+        responsibilities : '',
+        startDate : '',
+        endDate : '',
+        id: uniqid(),
+      },
+    });
+  };
+
+  deleteExperienceEntry(id) {
+    const experienceEntries = this.state.experienceEntries.filter(entry => entry.id !== id);
+    this.setState({ experienceEntries: experienceEntries });
+  };
+
+  // Send entry back to form
+  editExperienceEntry(id) {
+    const updatedEntry = this.state.experienceEntries.find(entry => entry.id == id);
+    this.setState({
+      experience: {
+        position: updatedEntry.position,
+        organization: updatedEntry.organization,
+        responsibilities: updatedEntry.responsibilities,
+        startDate:  updatedEntry.startDate,
+        endDate:  updatedEntry.endDate,
+        id: updatedEntry.id,
+      }  
+    });
+  };
+
+
   render() {
     // Destructures state for cleaner look (Still not entirely sure what that means)
-    const { personalCurrent, educationEntries } = this.state;
+    const { personalCurrent, educationEntries, experienceEntries } = this.state;
 
     return (
       <div>
@@ -258,10 +339,13 @@ class App extends Component {
 
             <h2>Add Experience:</h2>
             {/* Form for Experience info input */}
-            <form className="experienceEntryForm">
+            <form className="experienceEntryForm" onSubmit={this.onSubmitExperience}>
 
               <label htmlFor= "positionTitleInput">Position:
-                <input 
+                <input
+                    name="position"
+                    onChange={this.handleExperienceChange}
+                    value={this.state.experience.position}  
                     type="text" 
                     id="positionTitleInput"
                 />
@@ -269,6 +353,9 @@ class App extends Component {
 
               <label htmlFor= "organizationInput">Organization: 
                 <input 
+                    name="organization"
+                    onChange={this.handleExperienceChange}
+                    value={this.state.experience.organization}  
                     type="text" 
                     id="organizationInput"
                 />
@@ -276,6 +363,9 @@ class App extends Component {
 
               <label htmlFor= "responsibilitiesInput">Responsibilities: 
                 <input 
+                    name="responsibilities"
+                    onChange={this.handleExperienceChange}
+                    value={this.state.experience.responsibilities} 
                     type="textarea" 
                     id="responsibilitiesInput"
                 />
@@ -283,13 +373,19 @@ class App extends Component {
 
               <label htmlFor= "startDateInput">Start date: 
                 <input 
+                    name="startDate"
+                    onChange={this.handleExperienceChange}
+                    value={this.state.experience.startDate} 
                     type="text" 
                     id="startDateInput"
                 />
               </label>
 
               <label htmlFor= "endDateInput">End date: 
-                <input 
+                <input
+                    name="endDate"
+                    onChange={this.handleExperienceChange}
+                    value={this.state.experience.endDate}  
                     type="text" 
                     id="endDateInput"
                 />
@@ -304,12 +400,16 @@ class App extends Component {
             <PersonalOutput personalCurrent={personalCurrent} />
             <h2>Education</h2>
             <EducationOutput 
-              editEntry={this.editEntry.bind(this)} 
-              deleteEntry={this.deleteEntry.bind(this)} 
+              editEducationEntry={this.editEducationEntry.bind(this)} 
+              deleteEducationEntry={this.deleteEducationEntry.bind(this)} 
               educationEntries={educationEntries}
             />
             <h2>Experience</h2>
-            <ExperienceOutput />
+            <ExperienceOutput 
+              editExperienceEntry={this.editExperienceEntry.bind(this)} 
+              deleteExperienceEntry={this.deleteExperienceEntry.bind(this)} 
+              experienceEntries={experienceEntries}
+            />
           </div>
 
         </div>
