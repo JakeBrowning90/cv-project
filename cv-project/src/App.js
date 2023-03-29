@@ -62,6 +62,44 @@ class App extends Component {
     this.handleExperienceChange = this.handleExperienceChange.bind(this);
   }
 
+  togglePersonalForm() {
+    const form = document.getElementById("personalEntryForm");
+
+    if (form.classList.contains("visibleForm")) {
+      form.classList.remove("visibleForm");
+      form.classList.add("hiddenForm");
+    }
+    else {
+      form.classList.remove("hiddenForm");
+      form.classList.add("visibleForm");
+    }
+  }
+
+  toggleEducationForm() {
+    const form = document.getElementById("educationEntryForm");
+
+    if (form.classList.contains("visibleForm")) {
+      form.classList.remove("visibleForm");
+      form.classList.add("hiddenForm");
+    }
+    else {
+      form.classList.remove("hiddenForm");
+      form.classList.add("visibleForm");
+    }
+  }
+
+  toggleExperienceForm() {
+    const form = document.getElementById("experienceEntryForm");
+
+    if (form.classList.contains("visibleForm")) {
+      form.classList.remove("visibleForm");
+      form.classList.add("hiddenForm");
+    }
+    else {
+      form.classList.remove("hiddenForm");
+      form.classList.add("visibleForm");
+    }
+  }
   // Handles what's typed in the input fields: updates the state to match the current input value
   handlePersonalChange(e) {
     const target = e.target;
@@ -109,13 +147,6 @@ class App extends Component {
     // Modify state:
     this.setState({
       personalCurrent: this.state.personal,
-      // sets Personal in state to an empty string to clear input field
-      personal: { 
-        username: '',
-        phone: '',
-        email: '',
-        website: '',
-      },
     });
   };
 
@@ -265,9 +296,14 @@ class App extends Component {
         </div>
         <div className="bodyWhole">
           <div className="bodyForms">
-            <h2>Add Personal info:</h2>
+            <div className="formAreaHeader">
+              <h2>Add Personal info:</h2>
+              <button onClick={this.togglePersonalForm}>
+                Show/Hide
+              </button>
+            </div>
             {/* Form for Personal info input */}
-            <form className="personalEntryForm" onSubmit={this.onSubmitPersonal}>
+            <form id="personalEntryForm" className="hiddenForm" onSubmit={this.onSubmitPersonal}>
               <div className="formInput">
               <label htmlFor= "nameInput" >Name: 
                   <input 
@@ -316,9 +352,14 @@ class App extends Component {
               <button>Update</button>
             </form>
 
-            <h2>Add Education:</h2>
+            <div className="formAreaHeader">
+              <h2>Add Education:</h2>
+              <button onClick={this.toggleEducationForm}>
+                Show/Hide
+              </button>
+            </div>
             {/* Form for Education info input */}
-            <form className="educationEntryForm" onSubmit={this.onSubmitEducation}>
+            <form id="educationEntryForm" className="hiddenForm" onSubmit={this.onSubmitEducation}>
 
               <div className="formInput">
                 <label htmlFor= "schoolInput">School:
@@ -400,9 +441,14 @@ class App extends Component {
               <button>Add</button>
             </form>
 
-            <h2>Add Experience:</h2>
+            <div className="formAreaHeader">
+              <h2>Add Experience:</h2>
+              <button onClick={this.toggleExperienceForm}>
+                Show/Hide
+              </button>
+            </div>
             {/* Form for Experience info input */}
-            <form className="experienceEntryForm" onSubmit={this.onSubmitExperience}>
+            <form id="experienceEntryForm" className="hiddenForm" onSubmit={this.onSubmitExperience}>
 
             <div className="formInput">
             <label htmlFor= "positionTitleInput">Position:
@@ -476,18 +522,26 @@ class App extends Component {
           <div className="bodyOutput">
             {/* <h2>Personal info</h2> */}
             <PersonalOutput personalCurrent={personalCurrent} />
-            <h2>Education:</h2>
+            <div className="cvSection">
+              <h2>Education:</h2>
+            </div>
             <EducationOutput 
               editEducationEntry={this.editEducationEntry.bind(this)} 
               deleteEducationEntry={this.deleteEducationEntry.bind(this)} 
               educationEntries={educationEntries}
             />
-            <h2>Experience:</h2>
+            
+            <div className="cvSection">
+              <h2>Experience:</h2>
+            </div>
             <ExperienceOutput 
               editExperienceEntry={this.editExperienceEntry.bind(this)} 
               deleteExperienceEntry={this.deleteExperienceEntry.bind(this)} 
               experienceEntries={experienceEntries}
             />
+            <div className="cvSection">
+              <h2>References available upon request</h2>
+            </div>
           </div>
 
         </div>
