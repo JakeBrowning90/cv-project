@@ -100,6 +100,7 @@ class App extends Component {
       form.classList.add("visibleForm");
     }
   }
+
   // Handles what's typed in the input fields: updates the state to match the current input value
   handlePersonalChange(e) {
     const target = e.target;
@@ -296,7 +297,7 @@ class App extends Component {
         </div>
         <div className="bodyWhole">
           <div className="bodyForms">
-            <div className="formAreaHeader">
+            <div id="personalFormHeader" className="formAreaHeader">
               <h2>Add Personal info:</h2>
               <button onClick={this.togglePersonalForm}>
                 Show/Hide
@@ -312,6 +313,7 @@ class App extends Component {
                       value={this.state.personal.username}
                       type="text" 
                       id="nameInput"
+                      required
                   />
                 </label>
               </div>
@@ -323,6 +325,7 @@ class App extends Component {
                       value={this.state.personal.phone}
                       type="text" 
                       id="phoneInput"
+                      required
                   />
                 </label>
               </div>
@@ -334,6 +337,7 @@ class App extends Component {
                       value={this.state.personal.email}
                       type="text" 
                       id="emailInput"
+                      required
                   />
                 </label>
               </div>
@@ -345,6 +349,7 @@ class App extends Component {
                     value={this.state.personal.website}
                     type="text" 
                     id="websiteInput"
+                    required
                 />
               </label>
               </div>
@@ -352,7 +357,7 @@ class App extends Component {
               <button>Update</button>
             </form>
 
-            <div className="formAreaHeader">
+            <div id="educationFormHeader" className="formAreaHeader">
               <h2>Add Education:</h2>
               <button onClick={this.toggleEducationForm}>
                 Show/Hide
@@ -369,6 +374,7 @@ class App extends Component {
                       value={this.state.education.school} 
                       type="text" 
                       id="schoolInput"
+                      required
                   />
                 </label>
               </div>
@@ -381,6 +387,7 @@ class App extends Component {
                       value={this.state.education.location} 
                       type="text" 
                       id="locationInput"
+                      required
                   />
                 </label>
               </div>
@@ -392,6 +399,7 @@ class App extends Component {
                       value={this.state.education.major} 
                       type="text" 
                       id="majorInput"
+                      required
                   />
                  </label>
               </div>
@@ -403,6 +411,7 @@ class App extends Component {
                       value={this.state.education.degree} 
                       type="text" 
                       id="degreeInput"
+                      required
                   />  
                 </label>
               </div>
@@ -414,6 +423,7 @@ class App extends Component {
                       value={this.state.education.startDate} 
                       type="text" 
                       id="startDateInput"
+                      required
                   />
                 </label>
 
@@ -424,6 +434,7 @@ class App extends Component {
                       value={this.state.education.endDate}                 
                       type="text" 
                       id="endDateInput"
+                      required
                   />
                 </label>
               <div className="formInput">
@@ -434,6 +445,7 @@ class App extends Component {
                       value={this.state.education.details} 
                       // type="textarea" 
                       id="detailsInput"
+                      placeholder="Awards, courses, extracurriculars, etc."
                   />  
                 </label>
               </div>
@@ -441,7 +453,7 @@ class App extends Component {
               <button>Add</button>
             </form>
 
-            <div className="formAreaHeader">
+            <div id="experienceFormHeader"  className="formAreaHeader">
               <h2>Add Experience:</h2>
               <button onClick={this.toggleExperienceForm}>
                 Show/Hide
@@ -458,6 +470,7 @@ class App extends Component {
                     value={this.state.experience.position}  
                     type="text" 
                     id="positionTitleInput"
+                    required
                 />
               </label>
             </div>
@@ -469,6 +482,7 @@ class App extends Component {
                       value={this.state.experience.organization}  
                       type="text" 
                       id="organizationInput"
+                      required
                   />
                 </label>
               </div>
@@ -480,6 +494,7 @@ class App extends Component {
                     value={this.state.experience.location}  
                     type="text" 
                     id="locationInput"
+                    required
                   />
                 </label>
               </div>
@@ -490,6 +505,7 @@ class App extends Component {
                     value={this.state.experience.startDate} 
                     type="text" 
                     id="startDateInput"
+                    required
                 />
               </label>
 
@@ -500,6 +516,7 @@ class App extends Component {
                     value={this.state.experience.endDate}  
                     type="text" 
                     id="endDateInput"
+                    required
                 />
               </label>
 
@@ -509,14 +526,16 @@ class App extends Component {
                       name="responsibilities"
                       onChange={this.handleExperienceChange}
                       value={this.state.experience.responsibilities} 
-       
                       id="responsibilitiesInput"
+                      placeholder="Duties, accomplishments, recognition, etc."
+                      required
                   />  
                 </label>  
               </div>
 
               <button>Add</button>
             </form>
+
           </div>
 
           <div className="bodyOutput">

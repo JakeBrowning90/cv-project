@@ -1,6 +1,6 @@
 html {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #d7d7d7;
+    background-color: #e0effb;
     height: 100vh;
     padding: 20px;
     box-sizing: border-box;
@@ -16,7 +16,6 @@ h1 {
 
 h2 {
     font-size: 1em;
-
 }
 
 textarea {
@@ -40,13 +39,12 @@ ul {
 }
 
 .pageHeading {
-    background-color: white;
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 20px;
 }
 
-.titleArea {
+.titleArea, .instructionArea {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -66,16 +64,21 @@ ul {
 }
 
 .bodyForms, .bodyOutput {
-    background-color: white;
     padding: 5%;
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
+.bodyOutput, .bodyForms, .pageHeading  {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 .formAreaHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .visibleForm {
@@ -110,15 +113,15 @@ input, textarea {
     width: 100%;
 } 
 
-#personalEntryForm {
+#personalFormHeader, #personalEntryForm {
     background-color: #f9c4ce;
 }
 
-#educationEntryForm {
+#educationFormHeader, #educationEntryForm {
     background-color: #f4f5c3;
 }
 
-#experienceEntryForm {
+#experienceFormHeader, #experienceEntryForm {
     background-color: #c4f0f9;
 }
 .personalOutputDiv {
@@ -140,8 +143,6 @@ input, textarea {
 .nameOutput {
     font-weight: bold;
 }
-
-
 
 .entryDiv {
     display: grid;
@@ -168,3 +169,7 @@ input, textarea {
     padding: 10px;
 }
 
+/* .visibleButton{} */
+.hiddenButton {
+    display: none;
+}

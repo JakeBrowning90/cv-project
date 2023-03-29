@@ -20,10 +20,10 @@ const EducationOutput = (props) => {
                     <div></div>
                     <div className="entryButtons"> 
                         <button onClick={() => editEducationEntry(education.id)}>
-                        Edit
+                            Edit
                         </button>
                         <button onClick={() => deleteEducationEntry(education.id)}>
-                        Delete
+                            Delete
                         </button>
                     </div>
   

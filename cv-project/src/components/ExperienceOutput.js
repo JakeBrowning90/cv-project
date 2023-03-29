@@ -1,4 +1,3 @@
-//Displays tasks
 import React from "react";
 
 const ExperienceOutput = (props) => {
