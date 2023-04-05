@@ -1,6 +1,6 @@
 //Contains logic and manages state
 
-import React, { Component } from "react";
+import React, { useState } from "react";
 import './styles/reset.css';
 import './styles/styles.css';
 //Package to create unique ids as object keys
@@ -9,60 +9,208 @@ import PersonalOutput from "./components/PersonalOutput";
 import EducationOutput from "./components/EducationOutput";
 import ExperienceOutput from "./components/ExperienceOutput";
 
-class App extends Component {
-  constructor() {
-    super();
+const App = () => {
 
-    // Defines state: the changable value to b passed into components
-    this.state = {
-      // stores the moment-to-moment values of the PersonalInfoForm
-      personal: { 
-        username: '',
-        phone: '',
-        email: '',
-        website: '',
-      },
-      // on submit, goes to the PersonalOutput component
-      personalCurrent: { 
-        username: '',
-        phone: '',
-        email: '',
-        website: '',
-      },
-      // stores the moment-to-moment values of the EducationForm
-      education: {
-        school: '',
-        location: '',
-        major: '',
-        degree: '',
-        details: '',
-        startDate: '',
-        endDate: '',
-        id: uniqid(),
-      },
-      // On submit, takes the current Education values and adds to list, then read by EducationOutput component
-      educationEntries: [],
+   //personal
+   const[personal, setPersonal] = useState({
+    username:'',
+    phone:'',
+    email:'',
+    website:'',
+  });
+  //personalCurrent
+  const[currentPersonal, setCurrentPersonal] = useState({
+    username:'',
+    phone:'',
+    email:'',
+    website:'',
+  });
+  //education
+  const[education, setEducation] = useState({
+    school: '',
+    location: '',
+    major: '',
+    degree: '',
+    details: '',
+    startDate: '',
+    endDate: '',
+    id: uniqid(),
+  });
 
-      // stores the moment-to-moment values of the ExperienceForm
-      experience: {
-        position: '',
-        organization: '',
-        location: '',
-        responsibilities: '',
-        startDate: '',
-        endDate: '',
-        id: uniqid(),
-      },
-      // On submit, takes the current Education values and adds to list, then read by EducationOutput component
-      experienceEntries: [],
-    };
-    //Essential for handling multiple inputs but not sure why yet
-    this.handlePersonalChange = this.handlePersonalChange.bind(this);
-    this.handleEducationChange = this.handleEducationChange.bind(this);
-    this.handleExperienceChange = this.handleExperienceChange.bind(this);
+  //educationEntries
+  const[educationEntries, setEducationEntries] = useState([]);
+  //experience
+  const[experience, setExperience] = useState({
+    position: '',
+    organization: '',
+    location: '',
+    responsibilities: '',
+    startDate: '',
+    endDate: '',
+    id: uniqid(),
+    });
+  //experienceEntries
+  const[experienceEntries, setExperienceEntries] = useState([]);
+
+
+  //Toggle form view functions
+
+  //handleChange functions
+  const handlePersonalChange = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
+
+    setPersonal((personal) => {
+      return {
+        ...personal,   // Spread Operator               
+        [name]: value
+      }
+    })
   }
 
-  togglePersonalForm() {
+  const handleEducationChange = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
+
+    setEducation((education) => {
+      return {
+        ...education,   // Spread Operator               
+        [name]: value
+      }
+    })
+  }
+
+  const handleExperienceChange = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
+
+    setExperience((experience) => {
+      return {
+        ...experience,   // Spread Operator               
+        [name]: value
+      }
+    })
+  }
+
+  //onSubmit functions
+  const onSubmitPersonal = (e) => {
+    //Prevent default behavior (form refresh)
+    e.preventDefault();
+    // Modify state:
+    setCurrentPersonal(personal);
+  }
+
+  // onSubmit handler for form
+  const onSubmitEducation = (e) => {
+    //Prevent default behavior (form refresh)
+    e.preventDefault();
+
+    //Check if education key is already in use
+    const replaceEntry = educationEntries.find(entry => entry.id == education.id);
+
+    //if key isn't already in use, add new entry to array 
+    if (replaceEntry == undefined) {
+      setEducationEntries(
+        // Add current education form inputs to an object, add the object to an array to be read by the component
+        educationEntries.concat(education),
+      );
+    }
+    else {
+      // Insert modified entry back into array
+      const replaceIndex = educationEntries.indexOf(replaceEntry)
+      const editedArray = [...educationEntries.slice(0,replaceIndex ), education, ...educationEntries.slice(replaceIndex + 1)]
+      setEducationEntries(
+        editedArray,
+      );
+    }
+    // Clear out the input fields, prepare next ID
+    setEducation({
+      school : '',
+      location: '',
+      major : '',
+      degree : '',
+      details: '',
+      startDate : '',
+      endDate : '',
+      id: uniqid(),
+    });
+  };
+
+  // onSubmit handler for form
+  const onSubmitExperience = (e) => {
+    //Prevent default behavior (form refresh)
+    e.preventDefault();
+
+    //Check if education key is already in use
+    const replaceEntry = experienceEntries.find(entry => entry.id == experience.id);
+
+    //if key isn't already in use, add new entry to array 
+    if (replaceEntry == undefined) {
+      setExperienceEntries(
+        // Add current education form inputs to an object, add the object to an array to be read by the component
+        experienceEntries.concat(experience),
+      );
+    }
+    else {
+      // Insert modified entry back into array
+      const replaceIndex = experienceEntries.indexOf(replaceEntry)
+      const editedArray = [...experienceEntries.slice(0,replaceIndex ), experience, ...experienceEntries.slice(replaceIndex + 1)]
+      setExperienceEntries(
+        editedArray,
+      );
+    }
+    // Clear out the input fields, prepare next ID
+    setExperience({
+      position: '',
+      organization: '',
+      location: '',
+      responsibilities: '',
+      startDate: '',
+      endDate: '',
+      id: uniqid(),
+    });
+  };
+
+  //deleteEntry functions
+  const deleteEducationEntry = (id) => {
+    // const educationEntries = educationEntries.filter(entry => entry.id !== id);
+    setEducationEntries( educationEntries.filter(entry => entry.id !== id) );
+  };
+
+  const deleteExperienceEntry = (id) => {
+    // const educationEntries = educationEntries.filter(entry => entry.id !== id);
+    setExperienceEntries( experienceEntries.filter(entry => entry.id !== id) );
+  };
+
+  //editEntry functions
+  const editEducationEntry = (id) => {
+    const updatedEntry = educationEntries.find(entry => entry.id == id);
+    setEducation({
+        school: updatedEntry.school,
+        location: updatedEntry.location,
+        major: updatedEntry.major,
+        degree: updatedEntry.degree,
+        details: updatedEntry.details,
+        startDate:  updatedEntry.startDate,
+        endDate:  updatedEntry.endDate,
+        id: updatedEntry.id,
+    });
+  };
+
+  const editExperienceEntry = (id) => {
+    const updatedEntry = experienceEntries.find(entry => entry.id == id);
+    setExperience({ 
+      position: updatedEntry.position,
+      organization: updatedEntry.organization,
+      location: updatedEntry.location,
+      responsibilities: updatedEntry.responsibilities,
+      startDate:  updatedEntry.startDate,
+      endDate:  updatedEntry.endDate,
+      id: updatedEntry.id,
+    });
+  };
+
+  const togglePersonalForm = () => {
     const form = document.getElementById("personalEntryForm");
 
     if (form.classList.contains("visibleForm")) {
@@ -75,7 +223,7 @@ class App extends Component {
     }
   }
 
-  toggleEducationForm() {
+  const toggleEducationForm=() => {
     const form = document.getElementById("educationEntryForm");
 
     if (form.classList.contains("visibleForm")) {
@@ -88,7 +236,7 @@ class App extends Component {
     }
   }
 
-  toggleExperienceForm() {
+   const toggleExperienceForm = () => {
     const form = document.getElementById("experienceEntryForm");
 
     if (form.classList.contains("visibleForm")) {
@@ -100,181 +248,6 @@ class App extends Component {
       form.classList.add("visibleForm");
     }
   }
-
-  // Handles what's typed in the input fields: updates the state to match the current input value
-  handlePersonalChange(e) {
-    const target = e.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      personal: {
-        ...this.state.personal, 
-        [name]: value,
-      }  
-    });
-  }
-
-  handleEducationChange(e) {
-    const target = e.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      education: {
-        ...this.state.education, 
-        [name]: value,
-      }  
-    });
-  }
-
-  handleExperienceChange(e) {
-    const target = e.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      experience: {
-        ...this.state.experience, 
-        [name]: value,
-      }  
-    });
-  }
-
-  // onSubmit handler for PersonalInfoForm
-  onSubmitPersonal = (e) => {
-    //Prevent default behavior (form refresh)
-    e.preventDefault();
-    // Modify state:
-    this.setState({
-      personalCurrent: this.state.personal,
-    });
-  };
-
-  // onSubmit handler for form
-  onSubmitEducation = (e) => {
-    //Prevent default behavior (form refresh)
-    e.preventDefault();
-
-    //Check if education key is already in use
-    const replaceEntry = this.state.educationEntries.find(entry => entry.id == this.state.education.id);
-
-    //if key isn't already in use, add new entry to array 
-    if (replaceEntry == undefined) {
-      this.setState({
-        // Add current education form inputs to an object, add the object to an array to be read by the component
-        educationEntries: this.state.educationEntries.concat(this.state.education),
-      });
-    }
-    else {
-      // Insert modified entry back into array
-      const replaceIndex = this.state.educationEntries.indexOf(replaceEntry)
-      const editedArray = [...this.state.educationEntries.slice(0,replaceIndex ), this.state.education, ...this.state.educationEntries.slice(replaceIndex + 1)]
-      this.setState({
-        educationEntries: editedArray,
-      });
-    }
-
-    // Clear out the input fields, prepare next ID
-    this.setState({
-      education: {
-        school : '',
-        location: '',
-        major : '',
-        degree : '',
-        details: '',
-        startDate : '',
-        endDate : '',
-        id: uniqid(),
-      },
-    });
-  };
-
-  deleteEducationEntry(id) {
-    const educationEntries = this.state.educationEntries.filter(entry => entry.id !== id);
-    this.setState({ educationEntries: educationEntries });
-  };
-
-  // Send entry back to form
-  editEducationEntry(id) {
-    const updatedEntry = this.state.educationEntries.find(entry => entry.id == id);
-    this.setState({
-      education: {
-        school: updatedEntry.school,
-        location: updatedEntry.location,
-        major: updatedEntry.major,
-        degree: updatedEntry.degree,
-        details: updatedEntry.details,
-        startDate:  updatedEntry.startDate,
-        endDate:  updatedEntry.endDate,
-        id: updatedEntry.id,
-      }  
-    });
-  };
-
-  // onSubmit handler for form
-  onSubmitExperience = (e) => {
-    //Prevent default behavior (form refresh)
-    e.preventDefault();
-
-    //Check if education key is already in use
-    const replaceEntry = this.state.experienceEntries.find(entry => entry.id == this.state.experience.id);
-
-    //if key isn't already in use, add new entry to array 
-    if (replaceEntry == undefined) {
-      this.setState({
-        // Add current education form inputs to an object, add the object to an array to be read by the component
-        experienceEntries: this.state.experienceEntries.concat(this.state.experience),
-      });
-    }
-    else {
-      // Insert modified entry back into array
-      const replaceIndex = this.state.experienceEntries.indexOf(replaceEntry)
-      const editedArray = [...this.state.experienceEntries.slice(0,replaceIndex ), this.state.experience, ...this.state.experienceEntries.slice(replaceIndex + 1)]
-      this.setState({
-        experienceEntries: editedArray,
-      });
-    }
-
-    // Clear out the input fields, prepare next ID
-    this.setState({
-      experience: {
-        position : '',
-        organization : '',
-        location: '',
-        responsibilities : '',
-        startDate : '',
-        endDate : '',
-        id: uniqid(),
-      },
-    });
-  };
-
-  deleteExperienceEntry(id) {
-    const experienceEntries = this.state.experienceEntries.filter(entry => entry.id !== id);
-    this.setState({ experienceEntries: experienceEntries });
-  };
-
-  // Send entry back to form
-  editExperienceEntry(id) {
-    const updatedEntry = this.state.experienceEntries.find(entry => entry.id == id);
-    this.setState({
-      experience: {
-        position: updatedEntry.position,
-        organization: updatedEntry.organization,
-        location: updatedEntry.location,
-        responsibilities: updatedEntry.responsibilities,
-        startDate:  updatedEntry.startDate,
-        endDate:  updatedEntry.endDate,
-        id: updatedEntry.id,
-      }  
-    });
-  };
-
-
-  render() {
-    // Destructures state for cleaner look (Still not entirely sure what that means)
-    const { personalCurrent, educationEntries, experienceEntries } = this.state;
 
     return (
       <div className="fullPage">
@@ -299,18 +272,18 @@ class App extends Component {
           <div className="bodyForms">
             <div id="personalFormHeader" className="formAreaHeader">
               <h2>Add Personal info:</h2>
-              <button onClick={this.togglePersonalForm}>
+              <button onClick={togglePersonalForm}>
                 Show/Hide
               </button>
             </div>
             {/* Form for Personal info input */}
-            <form id="personalEntryForm" className="hiddenForm" onSubmit={this.onSubmitPersonal}>
+            <form id="personalEntryForm" className="hiddenForm" onSubmit={onSubmitPersonal}>
               <div className="formInput">
               <label htmlFor= "nameInput" >Name: 
                   <input 
                       name="username"
-                      onChange={this.handlePersonalChange}
-                      value={this.state.personal.username}
+                      onChange={handlePersonalChange}
+                      value={personal.username}
                       type="text" 
                       id="nameInput"
                       required
@@ -321,8 +294,8 @@ class App extends Component {
               <label htmlFor= "phoneInput">Phone number: 
                   <input 
                       name="phone"
-                      onChange={this.handlePersonalChange}
-                      value={this.state.personal.phone}
+                      onChange={handlePersonalChange}
+                      value={personal.phone}
                       type="text" 
                       id="phoneInput"
                       required
@@ -333,8 +306,8 @@ class App extends Component {
               <label htmlFor= "emailInput">Email address:
                   <input 
                       name="email"
-                      onChange={this.handlePersonalChange}
-                      value={this.state.personal.email}
+                      onChange={handlePersonalChange}
+                      value={personal.email}
                       type="text" 
                       id="emailInput"
                       required
@@ -345,8 +318,8 @@ class App extends Component {
               <label htmlFor= "websiteInput">Website: 
                 <input 
                     name="website"
-                    onChange={this.handlePersonalChange}
-                    value={this.state.personal.website}
+                    onChange={handlePersonalChange}
+                    value={personal.website}
                     type="text" 
                     id="websiteInput"
                     required
@@ -359,19 +332,19 @@ class App extends Component {
 
             <div id="educationFormHeader" className="formAreaHeader">
               <h2>Add Education:</h2>
-              <button onClick={this.toggleEducationForm}>
+              <button onClick={toggleEducationForm}>
                 Show/Hide
               </button>
             </div>
             {/* Form for Education info input */}
-            <form id="educationEntryForm" className="hiddenForm" onSubmit={this.onSubmitEducation}>
+            <form id="educationEntryForm" className="hiddenForm" onSubmit={onSubmitEducation}>
 
               <div className="formInput">
                 <label htmlFor= "schoolInput">School:
                   <input
                       name="school"
-                      onChange={this.handleEducationChange}
-                      value={this.state.education.school} 
+                      onChange={handleEducationChange}
+                      value={education.school} 
                       type="text" 
                       id="schoolInput"
                       required
@@ -383,8 +356,8 @@ class App extends Component {
                 <label htmlFor="locationInput">Location:
                   <input
                       name="location"
-                      onChange={this.handleEducationChange}
-                      value={this.state.education.location} 
+                      onChange={handleEducationChange}
+                      value={education.location} 
                       type="text" 
                       id="locationInput"
                       required
@@ -395,8 +368,8 @@ class App extends Component {
                 <label htmlFor= "majorInput">Major / Area of study:
                   <input 
                       name="major"
-                      onChange={this.handleEducationChange}
-                      value={this.state.education.major} 
+                      onChange={handleEducationChange}
+                      value={education.major} 
                       type="text" 
                       id="majorInput"
                       required
@@ -407,8 +380,8 @@ class App extends Component {
                 <label htmlFor= "degreeInput">Degree / Certification:
                   <input 
                       name="degree"
-                      onChange={this.handleEducationChange}
-                      value={this.state.education.degree} 
+                      onChange={handleEducationChange}
+                      value={education.degree} 
                       type="text" 
                       id="degreeInput"
                       required
@@ -419,8 +392,8 @@ class App extends Component {
               <label htmlFor= "startDateInput">Start date: 
                   <input 
                       name="startDate"
-                      onChange={this.handleEducationChange}
-                      value={this.state.education.startDate} 
+                      onChange={handleEducationChange}
+                      value={education.startDate} 
                       type="text" 
                       id="startDateInput"
                       required
@@ -430,8 +403,8 @@ class App extends Component {
                 <label htmlFor= "endDateInput">End date: 
                   <input 
                       name="endDate"
-                      onChange={this.handleEducationChange}
-                      value={this.state.education.endDate}                 
+                      onChange={handleEducationChange}
+                      value={education.endDate}                 
                       type="text" 
                       id="endDateInput"
                       required
@@ -441,8 +414,8 @@ class App extends Component {
               <label htmlFor= "educationDetailsInput">Details:
                   <textarea 
                       name="details"
-                      onChange={this.handleEducationChange}
-                      value={this.state.education.details} 
+                      onChange={handleEducationChange}
+                      value={education.details} 
                       // type="textarea" 
                       id="detailsInput"
                       placeholder="Awards, courses, extracurriculars, etc."
@@ -455,19 +428,19 @@ class App extends Component {
 
             <div id="experienceFormHeader"  className="formAreaHeader">
               <h2>Add Experience:</h2>
-              <button onClick={this.toggleExperienceForm}>
+              <button onClick={toggleExperienceForm}>
                 Show/Hide
               </button>
             </div>
             {/* Form for Experience info input */}
-            <form id="experienceEntryForm" className="hiddenForm" onSubmit={this.onSubmitExperience}>
+            <form id="experienceEntryForm" className="hiddenForm" onSubmit={onSubmitExperience}>
 
             <div className="formInput">
             <label htmlFor= "positionTitleInput">Position:
                 <input
                     name="position"
-                    onChange={this.handleExperienceChange}
-                    value={this.state.experience.position}  
+                    onChange={handleExperienceChange}
+                    value={experience.position}  
                     type="text" 
                     id="positionTitleInput"
                     required
@@ -478,8 +451,8 @@ class App extends Component {
                 <label htmlFor= "organizationInput">Organization: 
                   <input 
                       name="organization"
-                      onChange={this.handleExperienceChange}
-                      value={this.state.experience.organization}  
+                      onChange={handleExperienceChange}
+                      value={experience.organization}  
                       type="text" 
                       id="organizationInput"
                       required
@@ -490,8 +463,8 @@ class App extends Component {
                 <label htmlFor= "locationInput">Location: 
                   <input 
                     name="location"
-                    onChange={this.handleExperienceChange}
-                    value={this.state.experience.location}  
+                    onChange={handleExperienceChange}
+                    value={experience.location}  
                     type="text" 
                     id="locationInput"
                     required
@@ -501,8 +474,8 @@ class App extends Component {
               <label htmlFor= "startDateInput">Start date: 
                 <input 
                     name="startDate"
-                    onChange={this.handleExperienceChange}
-                    value={this.state.experience.startDate} 
+                    onChange={handleExperienceChange}
+                    value={experience.startDate} 
                     type="text" 
                     id="startDateInput"
                     required
@@ -512,8 +485,8 @@ class App extends Component {
               <label htmlFor= "endDateInput">End date: 
                 <input
                     name="endDate"
-                    onChange={this.handleExperienceChange}
-                    value={this.state.experience.endDate}  
+                    onChange={handleExperienceChange}
+                    value={experience.endDate}  
                     type="text" 
                     id="endDateInput"
                     required
@@ -524,8 +497,8 @@ class App extends Component {
                 <label htmlFor= "responsibilitiesInput">Details:
                   <textarea 
                       name="responsibilities"
-                      onChange={this.handleExperienceChange}
-                      value={this.state.experience.responsibilities} 
+                      onChange={handleExperienceChange}
+                      value={experience.responsibilities} 
                       id="responsibilitiesInput"
                       placeholder="Duties, accomplishments, recognition, etc."
                       required
@@ -540,13 +513,13 @@ class App extends Component {
 
           <div className="bodyOutput">
             {/* <h2>Personal info</h2> */}
-            <PersonalOutput personalCurrent={personalCurrent} />
+            <PersonalOutput currentPersonal={currentPersonal} />
             <div className="cvSection">
               <h2>Education:</h2>
             </div>
             <EducationOutput 
-              editEducationEntry={this.editEducationEntry.bind(this)} 
-              deleteEducationEntry={this.deleteEducationEntry.bind(this)} 
+              editEducationEntry={editEducationEntry} 
+              deleteEducationEntry={deleteEducationEntry} 
               educationEntries={educationEntries}
             />
             
@@ -554,8 +527,8 @@ class App extends Component {
               <h2>Experience:</h2>
             </div>
             <ExperienceOutput 
-              editExperienceEntry={this.editExperienceEntry.bind(this)} 
-              deleteExperienceEntry={this.deleteExperienceEntry.bind(this)} 
+              editExperienceEntry={editExperienceEntry} 
+              deleteExperienceEntry={deleteExperienceEntry} 
               experienceEntries={experienceEntries}
             />
             <div className="cvSection">
@@ -567,6 +540,6 @@ class App extends Component {
       </div>
     );
   }
-}
+
 
 export default App;
